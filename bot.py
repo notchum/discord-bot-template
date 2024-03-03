@@ -57,10 +57,16 @@ class MyBot(commands.InteractionBot):
             await db.create_collection("settings")
             await db.create_collection("guilds")
         if self.config.TEST_MODE:
-            await init_beanie(self.client["test-my-bot"], document_models=[models.BotSettings, models.Guild])
+            await init_beanie(
+                self.client["test-my-bot"],
+                document_models=[models.BotSettings, models.Guild],
+            )
             logger.warning("Running in test mode. Connected to test database.")
         else:
-            await init_beanie(self.client["my-bot"], document_models=[models.BotSettings, models.Guild])
+            await init_beanie(
+                self.client["my-bot"],
+                document_models=[models.BotSettings, models.Guild],
+            )
             logger.success("Connected to database.")
 
         # Initialize aiohttp session
@@ -98,4 +104,6 @@ class MyBot(commands.InteractionBot):
                 self.logger.error(f"Error deleting {file}: {e}")
 
     def get_cog_filenames(self) -> list[str]:
-        return [filename[:-3] for filename in os.listdir("cogs") if filename.endswith(".py")]
+        return [
+            filename[:-3] for filename in os.listdir("cogs") if filename.endswith(".py")
+        ]

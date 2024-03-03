@@ -7,6 +7,7 @@ from dotenv import load_dotenv
 
 from bot import MyBot, Config
 
+
 async def main():
     # Load the environment variables
     load_dotenv()
@@ -24,18 +25,16 @@ async def main():
 
     # Create logging file
     logger.add(
-        "log/my-bot.log",
-        level="DEBUG" if config.DEBUG else "INFO",
-        rotation="12:00"
+        "log/my-bot.log", level="DEBUG" if config.DEBUG else "INFO", rotation="12:00"
     )
     if config.DISNAKE_LOGGING:
-        pass # TODO
+        pass  # TODO
 
     # Create intents
     intents = disnake.Intents.default()
     intents.members = True
     intents.message_content = True
-    
+
     # Create bot
     bot = MyBot(
         config=config,
@@ -44,5 +43,6 @@ async def main():
     )
     await bot.setup_hook()
     await bot.start(config.DISCORD_BOT_TOKEN)
+
 
 asyncio.run(main())
