@@ -25,7 +25,7 @@ async def main():
 
     # Create logging file
     logger.add(
-        "log/my-bot.log", level="DEBUG" if config.DEBUG else "INFO", rotation="12:00"
+        "logs/my-bot.log", level="DEBUG" if config.DEBUG else "INFO", rotation="12:00"
     )
     if config.DISNAKE_LOGGING:
         pass  # TODO

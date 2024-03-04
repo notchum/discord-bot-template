@@ -12,6 +12,7 @@ from beanie import init_beanie
 from motor.motor_asyncio import AsyncIOMotorClient
 
 import models
+from helpers import utilities as utils
 
 VERSION = "0.0.1"
 
@@ -32,22 +33,23 @@ Config = namedtuple(
 class MyBot(commands.InteractionBot):
     def __init__(self, *args, **kwargs):
         self.config: Config = kwargs.pop("config", None)
+        self.version = VERSION
         super().__init__(*args, **kwargs)
 
     async def setup_hook(self):
+        # Initialize temporary directory
+        self.create_temp_dir()
+        self.logger.debug(f"Initialized temp directory {self.temp_dir}")
+
         # Load cogs
-        for extension in self.get_cog_filenames():
+        for extension in utils.get_cog_filenames():
             try:
-                self.load_extension(f"cogs.{extension}")
+                self.load_extension(extension)
             except Exception as e:
                 exception = f"{type(e).__name__}: {e}"
                 self.logger.exception(
                     f"Failed to load extension {extension}!\t{exception}"
                 )
-
-        # Initialize temporary directory
-        self.create_temp_dir()
-        self.logger.debug(f"Initialized temp directory {self.temp_dir}")
 
         # Initialize database connection
         self.client = AsyncIOMotorClient(self.config.DATABASE_URI, io_loop=self.loop)
@@ -70,12 +72,12 @@ class MyBot(commands.InteractionBot):
             logger.success("Connected to database.")
 
         # Initialize aiohttp session
-        self.session = aiohttp.ClientSession(io_loop=self.loop)
+        self.session = aiohttp.ClientSession(loop=self.loop)
 
     async def on_ready(self):
         # fmt: off
         self.logger.info("------")
-        self.logger.info(f"{self.user.name} v{VERSION}")
+        self.logger.info(f"{self.user.name} v{self.version}")
         self.logger.info(f"ID: {self.user.id}")
         self.logger.info(f"Python version: {platform.python_version()}")
         self.logger.info(f"Disnake API version: {disnake.__version__}")
@@ -102,8 +104,3 @@ class MyBot(commands.InteractionBot):
                     shutil.rmtree(file_path)
             except Exception as e:
                 self.logger.error(f"Error deleting {file}: {e}")
-
-    def get_cog_filenames(self) -> list[str]:
-        return [
-            filename[:-3] for filename in os.listdir("cogs") if filename.endswith(".py")
-        ]

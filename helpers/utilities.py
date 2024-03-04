@@ -1,5 +1,6 @@
 import re
 import traceback
+from typing import List
 
 import disnake
 
@@ -76,6 +77,17 @@ def slash_command_mention(name: str, id: int) -> str:
     return f"</{name}:{id}>"
 
 
+def get_cog_names() -> List[str]:
+    """Get the names of every cog/extension that should be loaded.
+
+    Returns
+    -------
+    List[:class:`str`]
+        The cogs/extensions that should be loaded with `load_extension`.
+    """
+    return [ext_name for ext_name in disnake.utils.search_directory("cogs")]
+
+
 ##*************************************************##
 ##********          GENERAL UTILS           *******##
 ##*************************************************##
@@ -118,7 +130,7 @@ def create_trace(err: Exception, advance: bool = True) -> str:
     return error if advance else f"{type(err).__name__}: {err}"
 
 
-def chunkify(to_chunk: str) -> list:
+def chunkify(to_chunk: str) -> List[str]:
     """Split up a long string into 1000 character substrings.
 
     Parameters
@@ -128,7 +140,7 @@ def chunkify(to_chunk: str) -> list:
 
     Returns
     -------
-    :class:`list`
+    List[:class:`str`]
         A list containing the 'chunks' of strings capped
         at 1000 characters each.
     """

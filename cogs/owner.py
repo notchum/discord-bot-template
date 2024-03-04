@@ -16,6 +16,15 @@ class Owner(commands.Cog):
     If the bot is ever scaled to many guilds, then it would be a good idea
     to use `guild_ids` in the slash command decorator to specify that these
     commands should only be registered to specific guilds.
+    Furthermore, to only allow certain users to even access the 'owner' slash
+    commands group, go to the server(s) in which the commands are registered,
+    then go to:
+        - Server Settings > Integrations > Bots and Apps >
+        {Name of your bot} Manage > Commands > /owner
+        - Click 'Add roles or members' and select the '@everyone' role
+        - Select the red 'X' for the '@everyone' override
+        - Click 'Add roles or members' and add yourself
+        - Select the green check for yourself
     """
 
     def __init__(self, bot: commands.Bot):
@@ -48,14 +57,16 @@ class Owner(commands.Cog):
         )
         logger.info(f"Changing status to '{status}'")
         await inter.response.send_message(
-            embed=SuccessEmbed(f"Changed status to\n> {type.name} {status}")
+            embed=SuccessEmbed(
+                f"Changed status to\n> {disnake.ActivityType(type).name} {status}"
+            )
         )
 
     @owner.sub_command()
     async def download_log(self, inter: disnake.ApplicationCommandInteraction):
         """Download the current log file."""
         return await inter.response.send_message(
-            file=disnake.File("log/my-bot.log"), ephemeral=True
+            file=disnake.File("logs/my-bot.log"), ephemeral=True
         )
 
 
