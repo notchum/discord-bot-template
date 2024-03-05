@@ -1,4 +1,3 @@
-from typing import List
 from uuid import UUID, uuid4
 
 from pydantic import Field
@@ -10,4 +9,4 @@ class BotSettings(Document):
         name = "settings"
 
     id: UUID = Field(default_factory=uuid4)
-    statuses: List[str]
+    toggle: bool  # example field for global settings, just a toggle

@@ -71,6 +71,9 @@ class MyBot(commands.InteractionBot):
             )
             logger.success("Connected to database.")
 
+        # Create the global bot settings entry if it doesn't exist
+        await self.create_settings_entry()
+
         # Initialize aiohttp session
         self.session = aiohttp.ClientSession(loop=self.loop)
 
@@ -104,3 +107,11 @@ class MyBot(commands.InteractionBot):
                     shutil.rmtree(file_path)
             except Exception as e:
                 self.logger.error(f"Error deleting {file}: {e}")
+
+    async def create_settings_entry(self):
+        settings_doc = await models.BotSettings.find_all().to_list()
+        if len(settings_doc) == 0:
+            settings_doc = await models.BotSettings.insert_one(
+                models.BotSettings(toggle=False)
+            )
+            logger.success(f"Created settings entry for my-bot [{settings_doc.id}]")

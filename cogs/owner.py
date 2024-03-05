@@ -2,6 +2,7 @@ import disnake
 from disnake.ext import commands
 from loguru import logger
 
+import models
 from bot import MyBot
 from helpers import SuccessEmbed
 
@@ -60,6 +61,31 @@ class Owner(commands.Cog):
             embed=SuccessEmbed(
                 f"Changed status to\n> {disnake.ActivityType(type).name} {status}"
             )
+        )
+
+    @owner.sub_command()
+    async def settings_toggle(self, inter: disnake.ApplicationCommandInteraction):
+        """Toggles the 'toggle' field in the settings.
+
+        This is an example of how you can write
+        commands to change any settings that you
+        want to apply across all guilds that your
+        bot is a member in (global settings).
+        """
+        # There is only one entry in the settings collection, since
+        # these settings are global and not per-guild
+        settings_doc = await models.BotSettings.find_all().to_list()
+        settings_doc = settings_doc[0]
+
+        # Simply toggle the boolean
+        settings_doc.toggle = not settings_doc.toggle
+
+        # Save the settings to the database
+        settings_doc.save()
+
+        # Send a message with the new settings
+        await inter.response.send_message(
+            content=f"Toggled settings.toggle to `{settings_doc.toggle}`!"
         )
 
     @owner.sub_command()
