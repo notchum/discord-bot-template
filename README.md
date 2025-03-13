@@ -39,12 +39,14 @@ To use this template as your project starting point, click "Use this template" a
 │   └── tasks.py        # Disnake scheduled background tasks
 ├── helpers
 │   ├── __init__.py
-│   ├── embeds.py       # Common Discord embed templates
-│   └── utilities.py    # General utilities
+│   └── embeds.py       # Common Discord embed templates
 ├── models
 │   ├── __init__.py
 │   ├── guild.py        # Example ODM model for guilds
 │   └── settings.py     # ODM model for global bot settings
+├── utils
+│   ├── __init__.py
+│   └── utilities.py    # General utilities
 ├── views
 │   ├── __init__.py
 │   └── paginator.py    # Example view implementing embed pages
