@@ -62,7 +62,7 @@ To use this template as your project starting point, click "Use this template" a
 - [ ] CI based on Github actions
 - [ ] Dependabot configuration
 - [ ] Instructions to create bot application with correct permissions
-- [ ] Dockerfile
+- [x] Dockerfile
 - [ ] Instructions to set up docker hub secrets in Github
 
 ## Contributing
@@ -70,13 +70,11 @@ To use this template as your project starting point, click "Use this template" a
 Contributors are welcome, please fork and send pull requests! If you find a bug
 or have any ideas on how to improve this project please submit an issue.
 
-## Development
-
 ### Code formatting
 
 [ruff](https://github.com/astral-sh/ruff) is used for code formatting. Always format the code with ruff before submitting a pull request.
 
-### Testing
+## Development
 
 ``` sh
 # Inside the project root (directory containing this file)
