@@ -14,8 +14,8 @@ class Admin(commands.Cog):
     This class uses an ODM (Beanie) to interact with a MongoDB collection.
     """
 
-    def __init__(self, bot: commands.Bot):
-        self.bot: MyBot = bot
+    def __init__(self, bot: MyBot):
+        self.bot = bot
 
     @commands.slash_command(
         default_member_permissions=disnake.Permissions(administrator=True)
@@ -23,7 +23,13 @@ class Admin(commands.Cog):
     async def bind_log_channel(
         self, inter: disnake.ApplicationCommandInteraction, channel: disnake.TextChannel
     ):
-        """Bind the channel for bot logs in this guild."""
+        """Bind the channel for bot logs in this server.
+
+        Parameters
+        ----------
+        channel: :class:`disnake.TextChannel`
+            The channel to bind.
+        """
         await inter.response.defer()
 
         # Find the database entry for this guild
@@ -39,7 +45,7 @@ class Admin(commands.Cog):
 
         # Log it and send a message in Discord as well
         logger.info(
-            f"{inter.author.name}[{inter.author.id}] binded {channel.name}[{channel.id}] for logging."
+            f"{inter.author.name}[{inter.author.id}] binded {channel.name}[{channel.id}] for logging in {inter.guild.name}[{inter.guild.id}]."
         )
         await inter.edit_original_response(
             embed=SuccessEmbed(f"Binded {channel.mention} for logging.")

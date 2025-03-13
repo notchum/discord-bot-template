@@ -28,8 +28,8 @@ class Owner(commands.Cog):
         - Select the green check for yourself
     """
 
-    def __init__(self, bot: commands.Bot):
-        self.bot: MyBot = bot
+    def __init__(self, bot: MyBot):
+        self.bot = bot
 
     @commands.is_owner()
     @commands.slash_command()

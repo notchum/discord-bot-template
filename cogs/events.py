@@ -3,8 +3,8 @@ from disnake import commands
 from loguru import logger
 
 import models
+import utils
 from bot import MyBot
-from helpers import utilities as utils
 
 
 class Events(commands.Cog):
@@ -18,8 +18,8 @@ class Events(commands.Cog):
     collection within the MongoDB database.
     """
 
-    def __init__(self, bot: commands.Bot):
-        self.bot: MyBot = bot
+    def __init__(self, bot: MyBot):
+        self.bot = bot
 
     @commands.Cog.listener()
     async def on_slash_command(self, inter: disnake.ApplicationCommandInteraction):

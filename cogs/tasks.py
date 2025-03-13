@@ -11,8 +11,8 @@ class Tasks(commands.Cog):
     https://docs.disnake.dev/en/latest/ext/tasks/index.html
     """
 
-    def __init__(self, bot: commands.Bot):
-        self.bot: MyBot = bot
+    def __init__(self, bot: MyBot):
+        self.bot = bot
         self.clean_temp_dir.start()
 
     @tasks.loop(hours=1.0)

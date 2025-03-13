@@ -23,8 +23,8 @@ class Commands(commands.Cog):
     Refer to tasks.py to see how the temporary directory is periodically cleaned.
     """
 
-    def __init__(self, bot: commands.Bot):
-        self.bot: MyBot = bot
+    def __init__(self, bot: MyBot):
+        self.bot = bot
 
     @commands.slash_command()
     async def download_file(

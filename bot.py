@@ -12,7 +12,7 @@ from beanie import init_beanie
 from motor.motor_asyncio import AsyncIOMotorClient
 
 import models
-from helpers import utilities as utils
+import utils
 
 VERSION = "0.0.1"
 
@@ -23,7 +23,7 @@ Config = namedtuple(
         "DISNAKE_LOGGING",
         "TEST_MODE",
         "DISCORD_BOT_TOKEN",
-        "TEST_GUILD_ID",
+        "TEST_GUILDS",
         "DATABASE_URI",
         "NASA_KEY",
     ],
@@ -39,17 +39,15 @@ class MyBot(commands.InteractionBot):
     async def setup_hook(self):
         # Initialize temporary directory
         self.create_temp_dir()
-        self.logger.debug(f"Initialized temp directory {self.temp_dir}")
+        logger.debug(f"Initialized temp directory {self.temp_dir}")
 
         # Load cogs
-        for extension in utils.get_cog_filenames():
+        for extension in utils.get_cog_names():
             try:
                 self.load_extension(extension)
             except Exception as e:
                 exception = f"{type(e).__name__}: {e}"
-                self.logger.exception(
-                    f"Failed to load extension {extension}!\t{exception}"
-                )
+                logger.exception(f"Failed to load extension {extension}!\t{exception}")
 
         # Initialize database connection
         self.client = AsyncIOMotorClient(self.config.DATABASE_URI, io_loop=self.loop)
@@ -79,13 +77,13 @@ class MyBot(commands.InteractionBot):
 
     async def on_ready(self):
         # fmt: off
-        self.logger.info("------")
-        self.logger.info(f"{self.user.name} v{self.version}")
-        self.logger.info(f"ID: {self.user.id}")
-        self.logger.info(f"Python version: {platform.python_version()}")
-        self.logger.info(f"Disnake API version: {disnake.__version__}")
-        self.logger.info(f"Running on: {platform.system()} {platform.release()} ({os.name})")
-        self.logger.info("------")
+        logger.info("------")
+        logger.info(f"{self.user.name} v{self.version}")
+        logger.info(f"ID: {self.user.id}")
+        logger.info(f"Python version: {platform.python_version()}")
+        logger.info(f"Disnake API version: {disnake.__version__}")
+        logger.info(f"Running on: {platform.system()} {platform.release()} ({os.name})")
+        logger.info("------")
         # fmt: on
 
     async def close(self):
@@ -106,7 +104,7 @@ class MyBot(commands.InteractionBot):
                 elif os.path.isdir(file_path):
                     shutil.rmtree(file_path)
             except Exception as e:
-                self.logger.error(f"Error deleting {file}: {e}")
+                logger.error(f"Error deleting {file}: {e}")
 
     async def create_settings_entry(self):
         settings_doc = await models.BotSettings.find_all().to_list()
