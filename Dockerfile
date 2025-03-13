@@ -1,7 +1,21 @@
-FROM python:latest
+# Use minimal linux image
+FROM python:3.12.8-slim-bookworm
+
+# Update pip
+RUN python3.12 -m pip install --upgrade pip
+
+# Install packages
 RUN apt-get -y update
-RUN mkdir -p /app/my-bot
-WORKDIR /app/my-bot
-COPY ./ /app/my-bot
+COPY ./requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
-ENTRYPOINT python /app/my-bot/launcher.py
+RUN rm requirements.txt
+
+# Configure working directory
+RUN mkdir -p /app
+WORKDIR /app
+
+# Import app code
+COPY ./ /app
+
+# Run the app
+ENTRYPOINT python /app/launcher.py
