@@ -18,7 +18,7 @@ async def main():
         DISNAKE_LOGGING=os.environ["DISNAKE_LOGGING"] in ("1", "True", "true"),
         TEST_MODE=os.environ["TEST_MODE"] in ("1", "True", "true"),
         DISCORD_BOT_TOKEN=os.environ["DISCORD_BOT_TOKEN"],
-        TEST_GUILD_ID=os.environ["TEST_GUILD_ID"],
+        TEST_GUILDS=map(int, os.environ["TEST_GUILDS"].split(",")),
         DATABASE_URI=os.environ["DATABASE_URI"],
         NASA_KEY=os.environ["NASA_KEY"],
     )
@@ -38,8 +38,9 @@ async def main():
     # Create bot
     bot = MyBot(
         config=config,
-        test_guilds=[config.TEST_GUILD_ID],
+        test_guilds=config.TEST_GUILDS,
         intents=intents,
+        reload=config.DEBUG,
     )
     await bot.setup_hook()
     await bot.start(config.DISCORD_BOT_TOKEN)
