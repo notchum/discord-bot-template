@@ -18,7 +18,7 @@ async def main():
         DISNAKE_LOGGING=os.environ["DISNAKE_LOGGING"] in ("1", "True", "true"),
         TEST_MODE=os.environ["TEST_MODE"] in ("1", "True", "true"),
         DISCORD_BOT_TOKEN=os.environ["DISCORD_BOT_TOKEN"],
-        TEST_GUILDS=map(int, os.environ["TEST_GUILDS"].split(",")),
+        TEST_GUILDS=list(map(int, os.environ["TEST_GUILDS"].split(","))),
         DATABASE_URI=os.environ["DATABASE_URI"],
         NASA_KEY=os.environ["NASA_KEY"],
     )
