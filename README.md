@@ -21,7 +21,7 @@ To use this template as your project starting point, click "Use this template" a
 * Environment configuration with [python-dotenv](https://github.com/theskumar/python-dotenv)
 * Logs via [loguru](https://github.com/delgan/loguru)
 * Error handling
-* Docker image build workflow to push images to [Docker Hub](https://hub.docker.com/)
+* Docker image build workflow to push images to [Docker Hub](https://hub.docker.com/) or [Github Container Registry](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry)
 * Temporary file directory with scheduled clean-up
 
 ### Project structure
@@ -30,7 +30,7 @@ To use this template as your project starting point, click "Use this template" a
 ├── requirements.txt
 ├── bot.py              # The `MyBot` class
 ├── launcher.py         # Entry point to launch the bot
-├── .env                # Environment variables for bot configuration (renamed from .env.example)
+├── .env                # Environment variables for bot configuration (renamed from .env.template)
 ├── cogs
 │   ├── admin.py        # Slash commands for guild administrators
 │   ├── commands.py     # Example cog with some example slash commands
@@ -62,8 +62,10 @@ To use this template as your project starting point, click "Use this template" a
 - [ ] CI based on Github actions
 - [ ] Dependabot configuration
 - [ ] Instructions to create bot application with correct permissions
+- [ ] Instructions or script to rename `MyBot`/`my-bot`/`my_bot` to something unique
 - [x] Dockerfile
-- [ ] Instructions to set up docker hub secrets in Github
+- [ ] [Instructions to set up secrets in Github for GHCR or Docker Hub](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry)
+- [ ] Add back an example workflow for Docker Hub
 
 ## Contributing
 
