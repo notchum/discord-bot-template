@@ -2,6 +2,7 @@ import os
 import shutil
 import tempfile
 import platform
+import tomllib
 from collections import namedtuple
 
 import aiohttp
@@ -14,7 +15,6 @@ from motor.motor_asyncio import AsyncIOMotorClient
 import models
 import utils
 
-VERSION = "0.0.1"
 
 Config = namedtuple(
     "Config",
@@ -33,7 +33,7 @@ Config = namedtuple(
 class MyBot(commands.InteractionBot):
     def __init__(self, *args, **kwargs):
         self.config: Config = kwargs.pop("config", None)
-        self.version = VERSION
+        self.version = self.get_version()
         super().__init__(*args, **kwargs)
 
     async def setup_hook(self):
@@ -105,6 +105,11 @@ class MyBot(commands.InteractionBot):
                     shutil.rmtree(file_path)
             except Exception as e:
                 logger.error(f"Error deleting {file}: {e}")
+
+    def get_version(self, pyproject_path: str = "pyproject.toml") -> str:
+        with open(pyproject_path, "rb") as f:
+            data = tomllib.load(f)
+            return data.get("project", {}).get("version")
 
     async def create_settings_entry(self):
         settings_doc = await models.BotSettings.find_all().to_list()
