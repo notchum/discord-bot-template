@@ -1,8 +1,0 @@
-disnake
-motor
-beanie
-aiofiles
-aiohttp
-python-dotenv
-loguru
-ruff
