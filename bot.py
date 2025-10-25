@@ -10,7 +10,7 @@ import disnake
 from disnake.ext import commands
 from loguru import logger
 from beanie import init_beanie
-from motor.motor_asyncio import AsyncIOMotorClient
+from pymongo import AsyncMongoClient
 
 import models
 import utils
@@ -50,7 +50,7 @@ class MyBot(commands.InteractionBot):
                 logger.exception(f"Failed to load extension {extension}!\t{exception}")
 
         # Initialize database connection
-        self.client = AsyncIOMotorClient(self.config.DATABASE_URI, io_loop=self.loop)
+        self.client = AsyncMongoClient(self.config.DATABASE_URI)
         db_list = await self.client.list_database_names()
         if "my-bot" not in db_list:
             db = self.client["my-bot"]
