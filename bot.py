@@ -45,6 +45,7 @@ class MyBot(commands.InteractionBot):
         for extension in utils.get_cog_names():
             try:
                 self.load_extension(extension)
+                logger.debug(f"Loaded extension '{extension}'")
             except Exception as e:
                 exception = f"{type(e).__name__}: {e}"
                 logger.exception(f"Failed to load extension {extension}!\t{exception}")
