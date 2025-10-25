@@ -1,12 +1,16 @@
-#Ignore logs directory
+# Logs
 logs/
 
-#Ignore the git and cache folders
+# Launch settings
+.vscode/
+
+# git-related and cache folders
 .git/
 .git
+.github/
 .cache
 
-#Ingore all markdown and class files
+# Markdown and class files
 *.md
 **/*.class
 
