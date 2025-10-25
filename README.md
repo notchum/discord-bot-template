@@ -7,6 +7,7 @@ Discord bot with slash commands. It uses [MongoDB](https://docs.mongodb.com/) da
 ### Requirements
 
 - [Python](https://www.python.org/downloads/)
+- [uv](https://docs.astral.sh/uv/)
 - [MongoDB](https://docs.mongodb.com/manual/installation/)
 
 ### How to use this template
@@ -27,7 +28,8 @@ To use this template as your project starting point, click "Use this template" a
 ### Project structure
 
 ```bash
-├── requirements.txt
+├── pyproject.toml
+├── uv.lock
 ├── bot.py              # The `MyBot` class
 ├── launcher.py         # Entry point to launch the bot
 ├── .env                # Environment variables for bot configuration (renamed from .env.template)
@@ -78,12 +80,19 @@ or have any ideas on how to improve this project please submit an issue.
 
 ## Development
 
+After cloning the repo, use `uv` to set up a virtual environment and install dependencies.
+Inside the project root (directory containing this file), run:
 ``` sh
-# Inside the project root (directory containing this file)
-python -m venv venv && source ./venv/bin/activate
-pip install -r requirements.txt
-pip install -r requirements-test.txt
-mypy
-pytest
-ruff format .
+uv sync
+```
+
+After making edits, format using `ruff`:
+``` sh
+uvx ruff check
+uvx ruff format
+```
+
+To execute tests with `pytest`:
+``` sh
+uvx pytest
 ```
